@@ -1,0 +1,4 @@
+overrides.gml
+obj_control.object.gml>
+obj_player.object.gml
+> instance_create(100, 100, obj_player)

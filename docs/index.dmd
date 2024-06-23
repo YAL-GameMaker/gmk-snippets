@@ -1,0 +1,326 @@
+```set template default.html```
+```set title snippet_* cheat sheet```
+```set autoapi ext```
+```gmlapi fnames2```
+```setmd intro
+This is a "cheat sheet" for the "snippets" extension by YellowAfterlife.  
+The extension can be found
+[on GitHub](https://github.com/YAL-GameMaker/gmk-snippets)
+```
+
+#[Setting up](setup) {
+	--{
+	-	Import `snippets.gml` to your project.\
+		This should add a folder of scripts.
+	-	Add `events.gml`, `fnames`, and `snippets.dll` to your project folder
+		(_or_ Included Files)
+	-	Call `snippets_init` before using the functions
+	}
+}
+#[Preprocessing](+preproc) {
+	Snippet code undergoes the following transformations:
+	#[argument / argument_count](.arg) {
+		Arguments cannot be passed to `event_perform_object`,
+		so instead [snippet_call] will store them in global variables
+		and argument-related variables will be replaced with reads/writes of these.
+	}
+	#[var, globalvar](.var) {
+		For purposes of offering baseline convenience,
+		```gml
+		var v = 1;
+		globalvar g = 2;
+		```
+		will be translated to
+		```gml
+		var v; v = 1;
+		globalvar g; g = 2;
+		```
+		Note that multiple declarations (`var a = 1, b = 2`) are not supported.
+	}
+	#[function calls](.call) {
+		Calls to unknown functions will be replaced by [snippet_call], so
+		```gml
+		result = mystery_func(1, 2, 3);
+		```
+		becomes
+		```gml
+		result = snippet_call("mystery_func", 1, 2, 3);
+		```
+		Functions can be [registered](signatures) to be called by snippets.
+	}
+	#[function overrides](.hook) {
+		A defined snippet takes precedence over the known functions
+		for the subsequently compiled snippets (but not the ones that were compiled with it in one call).
+		
+		This allows to "hook" a built-in function or project script if necessary.
+		For example,
+		```gml
+		snippet_define("cool_hooks", '
+		#define game_end
+		if (show_question("Really quit?")) {
+			game_end(); // calls the real game_end
+		}
+		')
+		snippet_execute_string('
+		game_end(); // calls the game_end "hook"
+		')
+		```
+	}
+}
+#[General functions](general) {
+	#[snippet_init()]() {
+		Loads up the DLL and initializes the global variables.
+		
+		This will also do the equivalent of the following:
+		```gml
+		snippet_parse_api_file("fnames");
+		snippet_parse_event_file("events.gml");
+		```
+		and a `snippet_function_add` for each script in the project.
+	}
+	#[snippet_execute_string(gml_code)->]() { 
+		Like regular `execute_string`, but uses the snippet preprocessor
+		(e.g. can call snippets using `func()`).
+	}
+}
+#[Snippets](snippets) {
+	#[snippet_define(name, gml_code)]() {
+		Creates/overwrites a snippet.
+		
+		If the code contains `#define` sections, multiple snippets can be defined in one call.
+		
+		For example, the following would define snippets `test` and `add`:
+		```gml
+		snippet_define("test", '
+		return add(1, 2);
+		#define add
+		return argument0 + argument1;
+		')
+		```
+	}
+	#[snippet_define_raw(name, gml_code)]() {
+		Like above, but does _not_ use the snippet preprocessor.
+		
+		This is mostly useful if you know what you're doing or to "clone"
+		a snippet using [snippet_get_code].
+	}
+	State:
+	#[snippet_exists(name)->]() {
+		Returns whether a snippet with the given name exists
+	}
+	#[snippet_get_code(name)->]() {
+		Returns the [preprocessed](preproc) code of a snippet.
+	}
+	Calls:
+	#[snippet_call(name, ...arguments)->]() {
+		Calls a snippet with the given name and returns the result, not unlike `script_execute`.
+	}
+}
+#[Objects](objects) {
+	#[snippet_define_object(name, gml_code)->]() {
+		Creates/overwrites an object.
+		
+		Returns the object index.
+		
+		Events are defined using [GMEdit](https://yellowafterlife.itch.io/gmedit)-inspired syntax:
+		```gml
+		snippet_define_object("obj_test", '
+		#event create
+		points = 0;
+		
+		#event step
+		points += 1
+		
+		#event draw
+		draw_text(5, 5, string(points));
+		')
+		```
+		(also see [event types](event_types))
+		---
+		If there is code before the first event,
+		it is considered to be one-time "properties" setup
+		and may define the following variables
+		```gml
+		visible -> object_set_visible
+		depth -> object_set_depth
+		persistent -> object_set_persistent
+		parent_index -> object_set_parent
+		sprite_index -> object_set_sprite
+		mask_index -> object_set_mask
+		solid -> object_set_solid
+		```
+		You may also use this opportunity to load the resources that the object uses.
+		---
+		If the object name is a valid variable name, a `globalvar` will be automatically set up
+		for it so that it can be referenced in other code without extra effort.
+	}
+	#[snippet_prepare_object(name)->]() {
+		Creates an object if that doesn't exist yet.
+		
+		Returns the object index.
+	}
+	---
+	#[snippet_object_get_name(ind)->]() {
+		Like the regular `object_get_name`, but also knows what you've called the objects
+		that were created using [snippet_define_object].
+	}
+	#[snippet_object_get_index(ind)->]() {
+		Returns the index of an object with the given name,
+		including ones that were created using [snippet_define_object].
+		
+		Returns `-1` if there's no object with a name like that.
+	}
+}
+#[List files](+listfile) {
+	#[snippet_load_list(list, directory)]() {
+		Loads one or more files from the `directory`
+		(use `""` for current directory)
+		based on the instructions in the `list`.
+		
+		Each item is a string, which can be formatted like one of the following: --{
+		-	`test.gml`\
+			Just some script(s) (calls [snippet_define]).
+		-	`test.object.gml`\
+			An object definition file (calls [snippet_define_object]).\
+			If the line ends with a `>`, an instance of the object is automatically created at 0,0.
+		-	`test.global.gml`\
+			One-time code (calls [snippet_execute_string]).
+		-	`>code`\
+			A single-line snippet for [snippet_execute_string],
+			in case you don't want to make a file just for that.
+		}
+	}
+	#[snippet_load_listfile(path)]() {
+		This function calls the above,
+		but also adds support for comments (as `# comment`).
+		
+		An example file might be called `test.gmk-snips` and contain the following:
+		```
+		functions.gml
+		obj_control.object.gml>
+		obj_player.object.gml
+		> instance_create(100, 100, obj_player)
+		```
+		This would: --{
+		-	Load scripts from `functions.gml`
+		-	Load an object from `obj_control.object.gml` and make an instance of it
+		-	Load an object from `obj_player.object.gml`
+		-	Create an instance of `obj_player` at 100, 100
+		}
+	}
+}
+#[Event types](+event_types) {
+	#[Intro](.) {
+		For [snippet_define_object], 
+		the extension supports named events in a few formats.
+		
+		You can find the supported event names in `events.gml` (and/or add your own).
+		
+		The extension also supports segmented (`type:number`) names.\
+		For these, the following types are supported: --{
+		-	`create`
+		-	`destroy`
+		-	`alarm`
+		-	`step`
+		-	`collision`
+		-	`keyboard`
+		-	`mouse`
+		-	`other`
+		-	`draw`
+		-	`keypress`
+		-	`keyrelease`
+		}
+		"collision" event supports object names (per [snippet_object_get_index]),
+		such as `collision:obj_test`.
+		
+		The three keyboard event types recognize 0-9, A-Z, and `vk_` constants,
+		so `keyboard:vk_left` and `keypress:E` both work.
+		
+		You can dynamically register additional events/types using
+		[snippet_event_register] and [snippet_event_register_type].
+	}
+	---
+	#[snippet_event_get_type(name)->]() {
+		Parses an event name and returns its `event_type`.
+		
+		An event is invalid if [snippet_event_get_number] is `-1`.
+	}
+	#[snippet_event_get_number(name)->]() {
+		Parses an event name and returns its `event_number`.
+		
+		If an event is invalid, returns `-1`.
+		
+		If it's an event that uses an object name as an argument,
+		returns `-2` (the named can be retrieved using [snippet_event_get_number_object]).
+	}
+	#[snippet_event_get_number_object()->]() {
+		If the last [snippet_event_get_number] call returned `-2`,
+		this returns the object name.
+	}
+	---
+	#[snippet_event_register(name, type, number)]() {
+		Registers a named event.
+	}
+	#[snippet_event_register_type(name, type, arg_kind)]() {
+		Registers a named event type (for `type:arg`).
+		
+		`arg_kind` can be: --{
+		-	`0`: just numbers
+		-	`1`: object name
+		-	`2`: key code
+		}
+	}
+	#[snippet_parse_event_file(path)]() {
+		Loads event definitions (like with `events.gml`) from a file.
+	}
+}
+#[Signatures](signatures) {
+	#[snippet_parse_api_file(path)]() {
+		Parses contents of an `fnames`-styled API definitions file.
+	}
+	#[snippet_parse_api_entry(line)]() {
+		Parses a single-line definition in the aforementioned format.
+	}
+	---
+	#[snippet_function_add(name)]() {
+		Registers a known function name.
+		
+		Known function calls will not be replaced by the [preprocessor](preproc.call).
+	}
+	#[snippet_function_remove(name)]() {
+		Removes a known function registration.
+		
+		Calls to it in subsequently compiled snippet will be the [preprocessor](preproc.call).
+	}
+}
+#[Other stuff](other) {
+	File functions:
+	#[sniptools_file_get_contents(path)->]() {
+		Returns the contents of a file as a string (`""` if a file is missing).
+	}
+	String functions:
+	#[sniptools_string_trim(str)->]() {
+		Returns a string with spaces trimmed from the beginning and end of it.
+	}
+	#[sniptools_string_trim_start(str)->]() {
+		Returns a string with spaces trimmed from the beginning of it.
+	}
+	#[sniptools_string_trim_end(str)->]() {
+		Returns a string with spaces trimmed from the end of it.
+	}
+	---
+	#[sniptools_string_split_start(str, delimiter)->]() {
+		Split a string and returns the number of sections in it.
+		
+		Can be used like so:
+		```gml
+		repeat (sniptools_string_split_start("a;bb;ccc", ";")) {
+			show_message(sniptools_string_split_next());
+		}
+		```
+		(which would show `a`, `bb`, `ccc`)
+	}
+	#[sniptools_string_split_next()->]() {
+		Returns the next item from the string list made by [sniptools_string_split_start].
+	}
+}

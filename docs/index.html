@@ -1,0 +1,797 @@
+<!DOCTYPE HTML><html lang="en"><head>
+<meta charset="UTF-8">
+<title>snippet_* cheat sheet</title>
+<meta name="viewport" content="width=device-width" />
+<meta name="livenode" content="#doc" />
+<meta property="theme-color" content="#FFF037" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="en_us" />
+<meta property="og:site_name" content="YellowAfterlife" />
+<meta property="og:title" content="snippet_* cheat sheet" />
+<script type="text/javascript">
+if (document.location.host == "yal.cc" && location.protocol == "http:") {
+	document.location.protocol = "https:";
+}
+</script>
+<style type="text/css">body, #doc tt, #doc code {
+	font: 15px 'Open Sans', sans-serif;
+	line-height: 1.35;
+}
+body {
+	margin: 0;
+}
+.main {
+	width: 100%;
+	min-height: 100%;
+	min-height: 100vh;
+	background-color: #f5f7f9;
+}
+.page {
+	max-width: 656px;
+	background: #ffffff;
+	margin: 0 auto;
+	padding: 8px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+	min-height: 100%;
+	min-height: 100vh;
+	box-sizing: border-box;
+}
+.page > p:first-child {
+	margin-top: 0;
+}
+#doc, #doc ul, #doc ol {
+	padding-left: 0;
+	margin: 0;
+}
+#doc blockquote { margin: 0.5em 0; padding: 0; }
+#doc article > ul, #doc li > ul,
+#doc article > ol, #doc li > ol {
+	padding-left: 20px;
+}
+#doc article ul li {
+	list-style: disc;
+	list-style-image: url('data:image/svg+xml;base256,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="1em" viewBox="0 0 20px 1em"><circle cx="17px" cy="0.675em" r="2px"/></svg>'); 
+}
+
+#doc header {
+	margin: 0;
+	font-weight: 700;
+	font-size: 100%;
+	color: #458;
+	border-left: 2px solid #f3f3f3;/* #f9f9f9*/
+	padding-left: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+#doc header a {
+	outline: none;
+	text-decoration: none;
+	color: #458;
+	word-break: break-word;
+}
+#doc header::before {
+	display: inline-block;
+	content: "+";
+	font: 12px monospace;
+	border: 1px solid #458;
+	line-height: 11px;
+	height: 11px;
+	width: 11px;
+	text-align: center;
+	border-radius: 50%;
+	margin-right: 4px;
+	vertical-align: middle;
+	flex-shrink: 0;
+}
+#doc section.open > header::before {
+	content: "-";
+}
+#doc section.empty > header::before {
+	content: " "; /*"·"*/
+}
+
+#doc header:hover,
+#doc .sticky-side:hover {
+	border-left-color: #E7E7E7; /* rgba(0, 0, 0, 0.05) */
+	background: rgba(0, 0, 0, 0.048);
+}
+#doc header .ret-arrow {
+	font-weight: normal;
+	margin: 0 0.1em;
+}
+
+#doc a.broken {
+	color: red;
+}
+#doc p, .intro p {
+	margin: 0;
+}
+#doc p + p, .intro p + p, #doc p.pad, .display-controls {
+	margin-top: 0.5em;
+}
+#doc img {
+	max-width: 100%;
+}
+#doc h3 {
+	margin: 0.25em 0;
+	font-size: 125%;
+	font-weight: normal;
+	border-bottom: 1px solid #ccc;
+}
+
+#doc article,
+#doc ul,
+#doc ol,
+#doc blockquote {
+	padding-left: 20px;
+	border-left: 2px solid #f3f3f3;
+}
+#doc article {
+	padding-top: 0.25em;
+	padding-bottom: 0.5em;
+	position: relative;
+}
+#doc .sticky-side {
+	position: absolute;
+	left: -2px;
+	top: 0;
+	bottom: 1px;
+	width: 20px;
+	writing-mode: vertical-rl;
+	font-size: 85%;
+	text-orientation: sideways;
+	/*transform: rotate(0.05deg);*/
+}
+#doc .sticky-side,
+#doc .sticky-side:visited {
+	color: rgba(0, 0, 0, 0.3);
+}
+#doc .sticky-side > span {
+	display: inline-block;
+	position: sticky;
+	left: 0;
+	top: 0;
+	padding: 0.3em 0;
+	max-height: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#doc tt {
+	font-weight: bold;
+}
+#doc code {
+	display: inline-block;
+	background: #FFFBE4;
+	font-family: Consolas, Ubuntu Mono, Dejavu Sans Mono, Lucida Console, monospace;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 16px;
+	padding: 0 2px;
+	border: 1px solid #E6E0C4;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	max-width: 100%;
+	word-break: break-word;
+}
+
+#doc table {
+	border-spacing: 0;
+	color: currentColor;
+}
+#doc table, #doc table td, #doc table th {
+	border: 1px solid #f3f3f3;
+}
+#doc table td, #doc table th {
+	padding: 0.1em 0.5em;
+}
+#doc pre {
+	font-family: Consolas, Dejavu Sans Mono, Segoe UI Mono, Ubuntu Mono, Lucida Console, monospace;
+	font-size: 9pt;
+	line-height: 1.25;
+	background: white;
+	padding: 4px 2px 4px 10px;
+	margin: 0;
+	-moz-tab-size: 4;
+	tab-size: 4;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+#doc pre a {
+	text-decoration: none;
+}
+#doc pre a:hover {
+	text-decoration: underline;
+}
+#doc abbr[title] {
+	text-decoration: underline;
+	-webkit-text-decoration-color: #bbb;
+	text-decoration-color: #bbb;
+	-webkit-text-decoration-style: double;
+	text-decoration-style: double;
+}
+#doc hr {
+	margin: 0.5em 0;
+	margin-right: 1em;
+	border: 0;
+	border-top: 2px dashed #f3f3f3;
+}
+#doc section + hr {
+	margin: 0;
+	height: 1em;
+	border: 1px solid #f3f3f3;
+	border-width: 1px 0 1px 0;
+}
+#doc section {
+	border-top: 1px solid #f3f3f3;
+	margin-top: 0.3em;
+}
+#doc section:first-child {
+	margin-top: 0em;
+}
+#doc section:last-child {
+	border-bottom: 1px solid #f3f3f3;
+}
+#doc section + section, #doc hr + section {
+	border-top: 0;
+	margin-top: 0;
+}
+#doc section + p {
+	border-top: 1px solid #f3f3f3;
+	padding-top: 0.3em;
+}
+/* delay display until load */
+#doc[ready] section:not(.open) > article {
+	display: none;
+}</style>
+<style type="text/css" id="lang_gml">/* GameMakerLanguage */
+pre.gmlmd .md { color: #7A81A9 } /* #define */
+pre.gmlmd .kw { color: #008; font-weight: bold } /* keyword */
+pre.gmlmd .co { color: #080 } /* comment */
+pre.gmlmd .nu { color: #F03232 } /* number */
+pre.gmlmd .nx { color: #00f } /* hex */
+pre.gmlmd .st { color: #00f } /* string */
+pre.gmlmd .ts { color: #00f } /* template string */
+pre.gmlmd .op { color: #000 } /* operator */
+pre.gmlmd .cb { color: #008; font-weight: bold } /* curly brace */
+pre.gmlmd .sv { color: #800 } /* std func */
+pre.gmlmd .sf { color: #800 } /* std var */
+pre.gmlmd .ri { color: #0078aa } /* assets */
+pre.gmlmd .uf { color: #808 } /* user func */
+pre.gmlmd .uv { color: #000 } /* user var */
+pre.gmlmd .lv { color: #648 } /* local var */
+pre.gmlmd .fd { color: #804 } /* field */
+
+pre.gmlmd a.uf {
+	background-color: #f7f0ff;
+}
+pre.gmlmd a.kw {
+	background-color: #f0f7ff;
+}
+pre.gmlmd a.sf, #doc pre a.sv {
+	background-color: #fff3f0;
+}
+
+#night:checked + .main pre.gmlmd .op { color: #CCCCCC }
+#night:checked + .main pre.gmlmd .co { color: #5B995B }
+#night:checked + .main pre.gmlmd .kw { color: #FFB871 }
+#night:checked + .main pre.gmlmd .md { color: #FFB871 }
+#night:checked + .main pre.gmlmd .cb { color: #FFB871 }
+#night:checked + .main pre.gmlmd .sf { color: #FFB871 }
+#night:checked + .main pre.gmlmd .uf { color: #FFB871 }
+#night:checked + .main pre.gmlmd .nu { color: #FF8080 }
+#night:checked + .main pre.gmlmd .st { color: #FCF320 }
+#night:checked + .main pre.gmlmd .ts { color: #FF8080 }
+#night:checked + .main pre.gmlmd .sv { color: #FF8080 }
+#night:checked + .main pre.gmlmd .gv { color: #FF80FF }
+#night:checked + .main pre.gmlmd .ri { color: #FF8080 }
+#night:checked + .main pre.gmlmd .lv { color: #FFF899 }
+#night:checked + .main pre.gmlmd .uv { color: #B2B1FF }
+#night:checked + .main pre.gmlmd .fd { color: #B2B1FF }
+
+#night:checked + .main pre.gmlmd a.uf,
+#night:checked + .main pre.gmlmd a.kw,
+#night:checked + .main pre.gmlmd a.sf {
+	background-color: #431;
+}
+#night:checked + .main pre.gmlmd a.sv {
+	background-color: #422;
+}</style>
+<style type="text/css" id="night_css">.main label[for="night"] {
+	cursor: pointer;
+}
+#night { display: none }
+#night:checked + .main {
+	background-color: #424242;
+}
+#night:checked + .main .page {
+	background-color: #1c1c1c;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	color: white;
+}
+#night:checked + .main a,
+#night:checked + .main a:visited,
+#night:checked + .main #doc header,
+#night:checked + .main label[for="night"] {
+	color: #9DEC76;
+}
+#night:checked + .main #doc header:before,
+#night:checked + .main #doc h3 {
+	border-color: #9DEC76
+}
+#night:checked + .main #doc header,
+#night:checked + .main #doc header:hover,
+#night:checked + .main #doc .sticky-side:hover,
+#night:checked + .main #doc article,
+#night:checked + .main #doc section,
+#night:checked + .main #doc section + p,
+#night:checked + .main #doc hr,
+#night:checked + .main #doc ul,
+#night:checked + .main #doc table,
+#night:checked + .main #doc table td,
+#night:checked + .main #doc table th
+{
+	border-color: rgba(205,225,255,0.1);
+}
+#night:checked + .main #doc header:hover,
+#night:checked + .main #doc .sticky-side:hover,
+#night:checked + .main #doc .asset:hover {
+	background: rgba(205,225,255,0.1);
+}
+#night:checked + .main article ul li {
+	list-style-image: url('data:image/svg+xml;base256,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="1em" viewBox="0 0 20px 1em"><circle cx="17px" cy="0.675em" r="2px" fill="white"/></svg>'); 
+}
+#night:checked + .main pre {
+	color: #cccccc;
+	background: #000000;
+	border: 1px solid #3E4757;
+}
+#night:checked + .main #doc code {
+	background-color: #000;
+	border-color: #5b7c9f;
+	color: white;
+}
+#night:checked + .main #doc .sticky-side,
+#night:checked + .main #doc .sticky-side:visited {
+	color: rgba(255, 255, 255, 0.3);
+}</style>
+<style type="text/css" id="print_css">@media print {
+	.main { background-color: transparent }
+	.display-controls { display: none; }
+	.page { width: 100%; box-shadow: none; }
+	#doc header::before,
+	#doc section.open header::before	{
+		content: "~";
+	}
+	#doc { display: inherit }
+	#doc section:not(.open) > article,
+	#doc[ready] section:not(.open) > article {
+		display: inherit;
+	}
+}</style>
+<noscript><style>#doc header::before {
+	content: "~";
+}
+#doc header:hover {
+	border-left-color: #f3f3f3;
+	background: inherit;
+}
+#doc { display: inherit }
+#doc section:not(.open) > article {
+	display: inherit;
+}</style></noscript>
+</head><body>
+<input type="checkbox" id="night" checked/>
+<div class="main ">
+<script type="text/javascript">(function() {
+	var night = document.getElementById("night");
+	var path = "docmd night mode";
+	var ls = window.localStorage;
+	var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+	if (ls) {
+		var item = ls.getItem(path);
+		night.checked = item ? item == "true" : dark;
+		night.onchange = function(_) {
+			ls.setItem(path, "" + night.checked);
+		};
+	} else night.checked = dark;
+})();</script>
+<main class="page">
+<section class="intro">
+This is a "cheat sheet" for the "snippets" extension by YellowAfterlife.  <br/>
+The extension can be found
+<a href="https://github.com/YAL-GameMaker/gmk-snippets">on GitHub</a>
+</section>
+<section class="display-controls">
+Click on sections to expand/collapse them.<br>Quick display controls:
+<a href="javascript:void(0)" onclick="opt_none(); return false">Categories</a>
+&middot; <a href="javascript:void(0)" onclick="opt_list(); return false">Sections</a>
+&middot; <a href="javascript:void(0)" onclick="opt_all(); return false">Everything</a>
+&middot; <a href="javascript:void(0)"><label for="night">Toggle night mode</label></a><br/>
+</section><section id="doc">
+<!--<doc--><p><p>
+
+<style>
+.main { background-color: #899FC6 }
+.page { box-shadow: 0 0 8px rgba(0, 0, 0, 0.3) }
+#night:checked + .main { background-color: #405070 }
+#night:checked + .main .page { background-color: #1A202D }
+</style>
+
+
+
+
+
+
+</p><section><header id="setup"><a href="#setup" title="(permalink)">Setting up</a></header><article><ul>
+	<li>	Import <code>snippets.gml</code> to your project.<br/>
+		This should add a folder of scripts.
+	</li><li>	Add <code>events.gml</code>, <code>fnames</code>, and <code>snippets.dll</code> to your project folder
+		(_or_ Included Files)
+	</li><li>	Call <code>snippets_init</code> before using the functions
+	</li></ul></article></section><section><header id="preproc"><a href="#preproc" title="(permalink)">Preprocessing</a></header><article><a class="sticky-side" href="#preproc" title="Preprocessing"><span>Preprocessing</span></a><p>
+	Snippet code undergoes the following transformations:
+	</p><section><header id="preproc.arg"><a href="#preproc.arg" title="(permalink)">argument / argument_count</a></header><article><p>
+		Arguments cannot be passed to <code>event_perform_object</code>,
+		so instead <a href="#snippet_call">snippet_call</a> will store them in global variables
+		and argument-related variables will be replaced with reads/writes of these.
+	</p></article></section><section><header id="preproc.var"><a href="#preproc.var" title="(permalink)">var, globalvar</a></header><article><p>
+		For purposes of offering baseline convenience,
+		</p><pre class="gmlmd">
+<span class="kw">var</span> <span class="lv">v</span> <span class="op">=</span> <span class="nu">1</span><span class="op">;</span>
+<span class="kw">globalvar</span> <span class="uv">g</span> <span class="op">=</span> <span class="nu">2</span><span class="op">;</span>
+</pre><p>
+		will be translated to
+		</p><pre class="gmlmd">
+<span class="kw">var</span> <span class="lv">v</span><span class="op">;</span> <span class="lv">v</span> <span class="op">=</span> <span class="nu">1</span><span class="op">;</span>
+<span class="kw">globalvar</span> <span class="uv">g</span><span class="op">;</span> <span class="uv">g</span> <span class="op">=</span> <span class="nu">2</span><span class="op">;</span>
+</pre><p>
+		Note that multiple declarations (<code>var a = 1, b = 2</code>) are not supported.
+	</p></article></section><section><header id="preproc.call"><a href="#preproc.call" title="(permalink)">function calls</a></header><article><p>
+		Calls to unknown functions will be replaced by <a href="#snippet_call">snippet_call</a>, so
+		</p><pre class="gmlmd">
+<span class="uv">result</span> <span class="op">=</span> <span class="uf">mystery_func</span><span class="op">(</span><span class="nu">1</span><span class="op">,</span> <span class="nu">2</span><span class="op">,</span> <span class="nu">3</span><span class="op">)</span><span class="op">;</span>
+</pre><p>
+		becomes
+		</p><pre class="gmlmd">
+<span class="uv">result</span> <span class="op">=</span> <a class="sf" href="#snippet_call">snippet_call</a><span class="op">(</span><span class="st">"mystery_func"</span><span class="op">,</span> <span class="nu">1</span><span class="op">,</span> <span class="nu">2</span><span class="op">,</span> <span class="nu">3</span><span class="op">)</span><span class="op">;</span>
+</pre><p>
+		Functions can be <a href="#signatures">registered</a> to be called by snippets.
+	</p></article></section><section><header id="preproc.hook"><a href="#preproc.hook" title="(permalink)">function overrides</a></header><article><p>
+		A defined snippet takes precedence over the known functions
+		for the subsequently compiled snippets (but not the ones that were compiled with it in one call).
+		</p><p>
+		This allows to "hook" a built-in function or project script if necessary.
+		For example,
+		</p><pre class="gmlmd">
+<a class="sf" href="#snippet_define">snippet_define</a><span class="op">(</span><span class="st">"cool_hooks"</span><span class="op">,</span> <span class="st">'
+#define game_end
+if (show_question("Really quit?")) {
+    game_end(); // calls the real game_end
+}
+'</span><span class="op">)</span>
+<a class="sf" href="#snippet_execute_string">snippet_execute_string</a><span class="op">(</span><span class="st">'
+game_end(); // calls the game_end "hook"
+'</span><span class="op">)</span>
+</pre></article></section></article></section><section><header id="general"><a href="#general" title="(permalink)">General functions</a></header><article><a class="sticky-side" href="#general" title="General functions"><span>General functions</span></a><section><header id="snippet_init"><a href="#snippet_init" title="(permalink)">snippet_init()</a></header><article><p>
+		Loads up the DLL and initializes the global variables.
+		</p><p>
+		This will also do the equivalent of the following:
+		</p><pre class="gmlmd">
+<a class="sf" href="#snippet_parse_api_file">snippet_parse_api_file</a><span class="op">(</span><span class="st">"fnames"</span><span class="op">)</span><span class="op">;</span>
+<a class="sf" href="#snippet_parse_event_file">snippet_parse_event_file</a><span class="op">(</span><span class="st">"events.gml"</span><span class="op">)</span><span class="op">;</span>
+</pre><p>
+		and a <code>snippet_function_add</code> for each script in the project.
+	</p></article></section><section><header id="snippet_execute_string"><a href="#snippet_execute_string" title="(permalink)">snippet_execute_string(gml_code)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p> 
+		Like regular <code>execute_string</code>, but uses the snippet preprocessor
+		(e.g. can call snippets using <code>func()</code>).
+	</p></article></section></article></section><section><header id="snippets"><a href="#snippets" title="(permalink)">Snippets</a></header><article><a class="sticky-side" href="#snippets" title="Snippets"><span>Snippets</span></a><section><header id="snippet_define"><a href="#snippet_define" title="(permalink)">snippet_define(name, gml_code)</a></header><article><p>
+		Creates/overwrites a snippet.
+		</p><p>
+		If the code contains <code>#define</code> sections, multiple snippets can be defined in one call.
+		</p><p>
+		For example, the following would define snippets <code>test</code> and <code>add</code>:
+		</p><pre class="gmlmd">
+<a class="sf" href="#snippet_define">snippet_define</a><span class="op">(</span><span class="st">"test"</span><span class="op">,</span> <span class="st">'
+return add(1, 2);
+#define add
+return argument0 + argument1;
+'</span><span class="op">)</span>
+</pre></article></section><section><header id="snippet_define_raw"><a href="#snippet_define_raw" title="(permalink)">snippet_define_raw(name, gml_code)</a></header><article><p>
+		Like above, but does <i>not</i> use the snippet preprocessor.
+		</p><p>
+		This is mostly useful if you know what you're doing or to "clone"
+		a snippet using <a href="#snippet_get_code">snippet_get_code</a>.
+	</p></article></section><p>
+	State:
+	</p><section><header id="snippet_exists"><a href="#snippet_exists" title="(permalink)">snippet_exists(name)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns whether a snippet with the given name exists
+	</p></article></section><section><header id="snippet_get_code"><a href="#snippet_get_code" title="(permalink)">snippet_get_code(name)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns the <a href="#preproc">preprocessed</a> code of a snippet.
+	</p></article></section><p>
+	Calls:
+	</p><section><header id="snippet_call"><a href="#snippet_call" title="(permalink)">snippet_call(name, ...arguments)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Calls a snippet with the given name and returns the result, not unlike <code>script_execute</code>.
+	</p></article></section></article></section><section><header id="objects"><a href="#objects" title="(permalink)">Objects</a></header><article><a class="sticky-side" href="#objects" title="Objects"><span>Objects</span></a><section><header id="snippet_define_object"><a href="#snippet_define_object" title="(permalink)">snippet_define_object(name, gml_code)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Creates/overwrites an object.
+		</p><p>
+		Returns the object index.
+		</p><p>
+		Events are defined using <a href="https://yellowafterlife.itch.io/gmedit">GMEdit</a>-inspired syntax:
+		</p><pre class="gmlmd">
+<a class="sf" href="#snippet_define_object">snippet_define_object</a><span class="op">(</span><span class="st">"obj_test"</span><span class="op">,</span> <span class="st">'
+#event create
+points = 0;
+
+#event step
+points += 1
+
+#event draw
+draw_text(5, 5, string(points));
+'</span><span class="op">)</span>
+</pre><p>
+		(also see <a href="#event_types">event types</a>)
+		</p><hr/><p>
+		If there is code before the first event,
+		it is considered to be one-time "properties" setup
+		and may define the following variables
+		</p><pre class="gmlmd">
+<span class="sv">visible</span> <span class="op">-</span><span class="op">&gt;</span> <span class="sv">object_set_visible</span>
+<span class="sv">depth</span> <span class="op">-</span><span class="op">&gt;</span> <span class="sv">object_set_depth</span>
+<span class="sv">persistent</span> <span class="op">-</span><span class="op">&gt;</span> <span class="sv">object_set_persistent</span>
+<span class="uv">parent_index</span> <span class="op">-</span><span class="op">&gt;</span> <span class="sv">object_set_parent</span>
+<span class="sv">sprite_index</span> <span class="op">-</span><span class="op">&gt;</span> <span class="sv">object_set_sprite</span>
+<span class="sv">mask_index</span> <span class="op">-</span><span class="op">&gt;</span> <span class="sv">object_set_mask</span>
+<span class="sv">solid</span> <span class="op">-</span><span class="op">&gt;</span> <span class="sv">object_set_solid</span>
+</pre><p>
+		You may also use this opportunity to load the resources that the object uses.
+		</p><hr/><p>
+		If the object name is a valid variable name, a <code>globalvar</code> will be automatically set up
+		for it so that it can be referenced in other code without extra effort.
+	</p></article></section><section><header id="snippet_prepare_object"><a href="#snippet_prepare_object" title="(permalink)">snippet_prepare_object(name)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Creates an object if that doesn't exist yet.
+		</p><p>
+		Returns the object index.
+	</p></article></section><hr/><section><header id="snippet_object_get_name"><a href="#snippet_object_get_name" title="(permalink)">snippet_object_get_name(ind)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Like the regular <code>object_get_name</code>, but also knows what you've called the objects
+		that were created using <a href="#snippet_define_object">snippet_define_object</a>.
+	</p></article></section><section><header id="snippet_object_get_index"><a href="#snippet_object_get_index" title="(permalink)">snippet_object_get_index(ind)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns the index of an object with the given name,
+		including ones that were created using <a href="#snippet_define_object">snippet_define_object</a>.
+		</p><p>
+		Returns <code>-1</code> if there's no object with a name like that.
+	</p></article></section></article></section><section><header id="listfile"><a href="#listfile" title="(permalink)">List files</a></header><article><a class="sticky-side" href="#listfile" title="List files"><span>List files</span></a><section><header id="snippet_load_list"><a href="#snippet_load_list" title="(permalink)">snippet_load_list(list, directory)</a></header><article><p>
+		Loads one or more files from the <code>directory</code>
+		(use <code>""</code> for current directory)
+		based on the instructions in the <code>list</code>.
+		</p><p>
+		Each item is a string, which can be formatted like one of the following: </p><ul>
+		<li>	<code>test.gml</code><br/>
+			Just some script(s) (calls <a href="#snippet_define">snippet_define</a>).
+		</li><li>	<code>test.object.gml</code><br/>
+			An object definition file (calls <a href="#snippet_define_object">snippet_define_object</a>).<br/>
+			If the line ends with a <code>&gt;</code>, an instance of the object is automatically created at 0,0.
+		</li><li>	<code>test.global.gml</code><br/>
+			One-time code (calls <a href="#snippet_execute_string">snippet_execute_string</a>).
+		</li><li>	<code>&gt;code</code><br/>
+			A single-line snippet for <a href="#snippet_execute_string">snippet_execute_string</a>,
+			in case you don't want to make a file just for that.
+		</li></ul></article></section><section><header id="snippet_load_listfile"><a href="#snippet_load_listfile" title="(permalink)">snippet_load_listfile(path)</a></header><article><p>
+		This function calls the above,
+		but also adds support for comments (as <code># comment</code>).
+		</p><p>
+		An example file might be called <code>test.gmk-snips</code> and contain the following:
+		</p><pre>
+functions.gml
+obj_control.object.gml&gt;
+obj_player.object.gml
+&gt; instance_create(100, 100, obj_player)
+</pre><p>
+		This would: </p><ul>
+		<li>	Load scripts from <code>functions.gml</code>
+		</li><li>	Load an object from <code>obj_control.object.gml</code> and make an instance of it
+		</li><li>	Load an object from <code>obj_player.object.gml</code>
+		</li><li>	Create an instance of <code>obj_player</code> at 100, 100
+		</li></ul></article></section></article></section><section><header id="event_types"><a href="#event_types" title="(permalink)">Event types</a></header><article><a class="sticky-side" href="#event_types" title="Event types"><span>Event types</span></a><section><header id="event_types.Intro"><a href="#event_types.Intro" title="(permalink)">Intro</a></header><article><p>
+		For <a href="#snippet_define_object">snippet_define_object</a>, 
+		the extension supports named events in a few formats.
+		</p><p>
+		You can find the supported event names in <code>events.gml</code> (and/or add your own).
+		</p><p>
+		The extension also supports segmented (<code>type:number</code>) names.<br/>
+		For these, the following types are supported: </p><ul>
+		<li>	<code>create</code>
+		</li><li>	<code>destroy</code>
+		</li><li>	<code>alarm</code>
+		</li><li>	<code>step</code>
+		</li><li>	<code>collision</code>
+		</li><li>	<code>keyboard</code>
+		</li><li>	<code>mouse</code>
+		</li><li>	<code>other</code>
+		</li><li>	<code>draw</code>
+		</li><li>	<code>keypress</code>
+		</li><li>	<code>keyrelease</code>
+		</li></ul><p>
+		"collision" event supports object names (per <a href="#snippet_object_get_index">snippet_object_get_index</a>),
+		such as <code>collision:obj_test</code>.
+		</p><p>
+		The three keyboard event types recognize 0-9, A-Z, and <code>vk_</code> constants,
+		so <code>keyboard:vk_left</code> and <code>keypress:E</code> both work.
+		</p><p>
+		You can dynamically register additional events/types using
+		<a href="#snippet_event_register">snippet_event_register</a> and <a href="#snippet_event_register_type">snippet_event_register_type</a>.
+	</p></article></section><hr/><section><header id="snippet_event_get_type"><a href="#snippet_event_get_type" title="(permalink)">snippet_event_get_type(name)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Parses an event name and returns its <code>event_type</code>.
+		</p><p>
+		An event is invalid if <a href="#snippet_event_get_number">snippet_event_get_number</a> is <code>-1</code>.
+	</p></article></section><section><header id="snippet_event_get_number"><a href="#snippet_event_get_number" title="(permalink)">snippet_event_get_number(name)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Parses an event name and returns its <code>event_number</code>.
+		</p><p>
+		If an event is invalid, returns <code>-1</code>.
+		</p><p>
+		If it's an event that uses an object name as an argument,
+		returns <code>-2</code> (the named can be retrieved using <a href="#snippet_event_get_number_object">snippet_event_get_number_object</a>).
+	</p></article></section><section><header id="snippet_event_get_number_object"><a href="#snippet_event_get_number_object" title="(permalink)">snippet_event_get_number_object()&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		If the last <a href="#snippet_event_get_number">snippet_event_get_number</a> call returned <code>-2</code>,
+		this returns the object name.
+	</p></article></section><hr/><section><header id="snippet_event_register"><a href="#snippet_event_register" title="(permalink)">snippet_event_register(name, type, number)</a></header><article><p>
+		Registers a named event.
+	</p></article></section><section><header id="snippet_event_register_type"><a href="#snippet_event_register_type" title="(permalink)">snippet_event_register_type(name, type, arg_kind)</a></header><article><p>
+		Registers a named event type (for <code>type:arg</code>).
+		</p><p>
+		<code>arg_kind</code> can be: </p><ul>
+		<li>	<code>0</code>: just numbers
+		</li><li>	<code>1</code>: object name
+		</li><li>	<code>2</code>: key code
+		</li></ul></article></section><section><header id="snippet_parse_event_file"><a href="#snippet_parse_event_file" title="(permalink)">snippet_parse_event_file(path)</a></header><article><p>
+		Loads event definitions (like with <code>events.gml</code>) from a file.
+	</p></article></section></article></section><section><header id="signatures"><a href="#signatures" title="(permalink)">Signatures</a></header><article><a class="sticky-side" href="#signatures" title="Signatures"><span>Signatures</span></a><section><header id="snippet_parse_api_file"><a href="#snippet_parse_api_file" title="(permalink)">snippet_parse_api_file(path)</a></header><article><p>
+		Parses contents of an <code>fnames</code>-styled API definitions file.
+	</p></article></section><section><header id="snippet_parse_api_entry"><a href="#snippet_parse_api_entry" title="(permalink)">snippet_parse_api_entry(line)</a></header><article><p>
+		Parses a single-line definition in the aforementioned format.
+	</p></article></section><hr/><section><header id="snippet_function_add"><a href="#snippet_function_add" title="(permalink)">snippet_function_add(name)</a></header><article><p>
+		Registers a known function name.
+		</p><p>
+		Known function calls will not be replaced by the <a href="#preproc.call">preprocessor</a>.
+	</p></article></section><section><header id="snippet_function_remove"><a href="#snippet_function_remove" title="(permalink)">snippet_function_remove(name)</a></header><article><p>
+		Removes a known function registration.
+		</p><p>
+		Calls to it in subsequently compiled snippet will be the <a href="#preproc.call">preprocessor</a>.
+	</p></article></section></article></section><section><header id="other"><a href="#other" title="(permalink)">Other stuff</a></header><article><a class="sticky-side" href="#other" title="Other stuff"><span>Other stuff</span></a><p>
+	File functions:
+	</p><section><header id="sniptools_file_get_contents"><a href="#sniptools_file_get_contents" title="(permalink)">sniptools_file_get_contents(path)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns the contents of a file as a string (<code>""</code> if a file is missing).
+	</p></article></section><p>
+	String functions:
+	</p><section><header id="sniptools_string_trim"><a href="#sniptools_string_trim" title="(permalink)">sniptools_string_trim(str)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns a string with spaces trimmed from the beginning and end of it.
+	</p></article></section><section><header id="sniptools_string_trim_start"><a href="#sniptools_string_trim_start" title="(permalink)">sniptools_string_trim_start(str)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns a string with spaces trimmed from the beginning of it.
+	</p></article></section><section><header id="sniptools_string_trim_end"><a href="#sniptools_string_trim_end" title="(permalink)">sniptools_string_trim_end(str)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns a string with spaces trimmed from the end of it.
+	</p></article></section><hr/><section><header id="sniptools_string_split_start"><a href="#sniptools_string_split_start" title="(permalink)">sniptools_string_split_start(str, delimiter)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Split a string and returns the number of sections in it.
+		</p><p>
+		Can be used like so:
+		</p><pre class="gmlmd">
+<span class="kw">repeat</span> <span class="op">(</span><a class="sf" href="#sniptools_string_split_start">sniptools_string_split_start</a><span class="op">(</span><span class="st">"a;bb;ccc"</span><span class="op">,</span> <span class="st">";"</span><span class="op">)</span><span class="op">)</span> <span class="cb">{</span>
+    <span class="sf">show_message</span><span class="op">(</span><a class="sf" href="#sniptools_string_split_next">sniptools_string_split_next</a><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">;</span>
+<span class="cb">}</span>
+</pre><p>
+		(which would show <code>a</code>, <code>bb</code>, <code>ccc</code>)
+	</p></article></section><section><header id="sniptools_string_split_next"><a href="#sniptools_string_split_next" title="(permalink)">sniptools_string_split_next()&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns the next item from the string list made by <a href="#sniptools_string_split_start">sniptools_string_split_start</a>.
+	</p></article></section></article></section></p><!--doc>-->
+</section></main></div>
+<script type="text/javascript">(function() {
+	var doc, headers;
+	//
+	var path = "snippet_* cheat sheet";
+	var state = null;
+	if (window.localStorage && JSON.parse) {
+		state = window.localStorage.getItem(path);
+		state = state ? JSON.parse(state) : { };
+		if (state == null) state = { };
+	}
+	var isLocal = (location.host.indexOf("localhost") == 0);
+	//
+	function h3bind(h3) {
+		var node = h3.parentNode;
+		var snip = node.children[1];
+		var id = h3.id || h3.textContent;
+		h3.snip = snip;
+		h3.doc_set = function(z) {
+			if (z) node.classList.add("open"); else node.classList.remove("open");
+			if (state) {
+				state[id] = z;
+				window.localStorage.setItem(path, JSON.stringify(state));
+			}
+		}
+		h3.doc_hide = function() {
+			this.doc_set(false);
+		}
+		h3.doc_show = function() {
+			this.doc_set(true);
+		}
+		h3.onclick = function(_) {
+			var seen = !node.classList.contains("open");
+			h3.doc_set(seen);
+			return false;
+		};
+	}
+	function getHashFunc(id) {
+		var node = document.getElementById(id);
+		if (node == null) return null;
+		return function(e) {
+			while (node && node != doc) {
+				if (node.classList.contains("item")) {
+					node.classList.add("open");
+				}
+				node = node.parentElement;
+			}
+		};
+	}
+	// Display helpers:
+	window.opt_none = function() {
+		for (var li = 0; li < headers.length; li++) headers[li].doc_hide();
+	};
+	window.opt_list = function() {
+		for (var li = 0; li < headers.length; li++) {
+			var h3 = headers[li];
+			if (h3.parentNode.parentNode != doc) {
+				h3.doc_hide();
+			} else h3.doc_show();
+		}
+	};
+	window.opt_all = function() {
+		for (var li = 0; li < headers.length; li++) headers[li].doc_show();
+	};
+	window.live_post = function() {
+		doc = document.getElementById("doc");
+		headers = doc.getElementsByTagName("header");
+		//
+		for (var i = 0; i < headers.length; i++) h3bind(headers[i]);
+		// Clicks in document expand the related section:
+		var anchors = doc.getElementsByTagName("a");
+		for (var i = 0; i < anchors.length; i++) {
+			var anchor = anchors[i];
+			if (anchor.classList.contains("header")) continue;
+			var href = anchor.getAttribute("href");
+			if (href[0] == "#") {
+				var fn = getHashFunc(href.substr(1));
+				if (!fn) {
+					anchor.classList.add("broken");
+					anchor.title = "(section missing)";
+				} else anchor.addEventListener("click", fn);
+			}
+		}
+		//
+		for (var li = 0; li < headers.length; li++) {
+			var h3 = headers[li];
+			var val = state ? state[h3.id || h3.textContent] : null;
+			if (val == null) val = isLocal || h3.parentNode.parentNode == doc;
+			if (val) h3.doc_show(); else h3.doc_hide();
+		}
+	};
+	window.live_post();
+	//
+	(function() {
+		var hash = document.location.hash;
+		if (hash) {
+			var _hash = hash.substr(1);
+			getHashFunc(_hash)();
+			setTimeout(function() {
+				document.location.hash = hash + " ";
+				setTimeout(function() {
+					document.location.hash = hash;
+				}, 100);
+			}, 100);
+		}
+	})();
+	//
+	doc.setAttribute("ready", "");
+	})();</script>
+</body></html>
