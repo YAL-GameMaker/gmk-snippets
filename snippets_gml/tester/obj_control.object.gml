@@ -8,5 +8,8 @@ if (keyboard_check(vk_shift)) {
 	game_end();
 }
 
+#event keypress:vk_f5
+game_restart();
+
 #event draw
 draw_text(5, 5, string((current_time - start_time) div 1000))

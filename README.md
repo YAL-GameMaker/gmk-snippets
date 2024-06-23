@@ -25,12 +25,12 @@ The DLL does code preprocessing and other operations that were deemed too slow t
 The scripts use `object_event_add` + `event_perform_object` to store and call the final code without parsing penalties that would occur with `execute_string`.
 
 ## Intended use cases
-<center>
+<p align="center">
 
 ![shrug](./misc/shrug.png)\
 ~~What use cases?~~
 
-</center>
+</p>
 
 You could use it for dynamic content loading if you are making a game in GM8.1.
 
@@ -52,8 +52,6 @@ If you compile a [GMEdit](https://github.com/YellowAfterlife/GMEdit/) version fr
 
 - Wildcard support in listfiles?\
   (`folder/*.gml`)
-- Arguments for `snippet_execute_string`?\
-  (needs an "argument count waterfall")
 
 ## Meta
 

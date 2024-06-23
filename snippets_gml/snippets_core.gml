@@ -1,5 +1,12 @@
 #define snippet_init
-/// ()
+/// (?path_prefix)
+var _dir, _dir_auto;
+_dir_auto = argument_count == 0;
+if (_dir_auto) {
+	_dir = "";
+} else {
+	_dir = argument[0];
+}
 snippet_init_dll();
 var i = 0;
 global.__snippet__argument[0] = 0;
@@ -23,8 +30,15 @@ for (i = 0; i < global.__snippet__blank_object; i += 1) if (object_exists(i)) {
 // contains things like "create\nstep" in case we need to delete events later
 global.__snippet__object_events = ds_map_create();
 
-snippet_parse_api_file("fnames");
-snippet_parse_event_file("events.gml");
+if (_dir == "" || filename_drive(_dir) == "") { // relative path?
+	if (sniptools_file_exists(program_directory + _dir + "\fnames")) {
+		_dir = program_directory + _dir + "\";
+	} else if (sniptools_file_exists(working_directory + _dir + "\fnames")) {
+		_dir = working_directory + _dir + "\";
+	}
+}
+snippet_parse_api_file(_dir + "fnames");
+snippet_parse_event_file(_dir + "events.gml");
 
 // collect scripts:
 var _max_gap = 1024;
@@ -48,14 +62,58 @@ while (_gap < _max_gap || !_seen_snippet_init) {
 );*/
 
 #define snippet_execute_string
-/// (gml_code)
-var n = external_call(global.f_snippet_preproc_run, "", argument0, "define");
+/// (gml_code, ...arguments)
+var n = external_call(global.f_snippet_preproc_run, "", argument[0], "define");
+
+// NB! Store-restore mirrors across snippet_execute_string, snippet_call, snippet_call_ext
+// store old arguments:
+var _old_argc = global.__snippet__argument_count;
+var _old_args = global.__snippet__argument;
+var i = 1;
+repeat (_old_argc - 1) {
+	_old_args[i] = global.__snippet__argument[i];
+	i += 1;
+}
+
+// copy new arguments:
+var _argc = argument_count - 1;
+global.__snippet__argument_count = _argc;
+i = 0;
+repeat (_argc) {
+	global.__snippet__argument[i] = argument[i + 1];
+	i += 1;
+}
+
+// clear "extra" arguments:
+repeat (_old_argc - _argc) {
+	global.__snippet__argument[i] = 0;
+	i += 1;
+}
+
+// run the snippet(s):
 var _result = 0;
 repeat (n) {
 	var _name = external_call(global.f_snippet_preproc_pop_name);
 	var _code = external_call(global.f_snippet_preproc_pop_code);
-	_result = execute_string(_code);
+	global.__snippet__result = 0;
+	execute_string(_code);
+	_result = global.__snippet__result;
 }
+
+// restore previous arguments:
+global.__snippet__argument_count = _old_argc;
+i = 0;
+repeat (_old_argc) {
+	global.__snippet__argument[i] = _old_args[i];
+	i += 1;
+}
+
+// clear the extra arguments (the other way around!):
+repeat (_argc - _old_argc) {
+	global.__snippet__argument[i] = 0;
+	i += 1;
+}
+
 return _result;
 
 #define snippet_define
@@ -113,9 +171,10 @@ if (ds_map_exists(global.__snippet__code_map, argument0)) {
 } else return "";
 
 #define snippet_call
-/// (name, ...args)
-var _name = argument0;
+/// (name, ...arguments)
+var _name = argument[0];
 
+// NB! Store-restore mirrors across snippet_execute_string, snippet_call, snippet_call_ext
 // store old arguments:
 var _old_argc = global.__snippet__argument_count;
 var _old_args = global.__snippet__argument;
@@ -141,6 +200,74 @@ repeat (_old_argc - _argc) {
 }
 
 if (ds_map_exists(global.__snippet__map, _name)) {
+	global.__snippet__result = 0;
+	// one snippet per event:
+	var _enumb = ds_map_find_value(global.__snippet__map, _name);
+	event_perform_object(obj_snippets, ev_alarm, _enumb);
+	//*/
+	
+	/* one snippet per object:
+	var _obj = ds_map_find_value(global.__snippet__map, _name);
+	event_perform_object(_obj, ev_other, 257);
+	//*/
+} else {
+	show_error('Snippet "' + _name + '" does not exist!', true);
+}
+
+// restore previous arguments:
+global.__snippet__argument_count = _old_argc;
+i = 0;
+repeat (_old_argc) {
+	global.__snippet__argument[i] = _old_args[i];
+	i += 1;
+}
+
+// clear the extra arguments (the other way around!):
+repeat (_argc - _old_argc) {
+	global.__snippet__argument[i] = 0;
+	i += 1;
+}
+
+return global.__snippet__result;
+
+#define snippet_call_ext
+/// (name, argument_list, offset=0, ?count)
+var _name = argument[0];
+var _args = argument[1];
+var _argi, _argc;
+if (argument_count > 2) {
+	_argi = argument[2];
+} else _argi = 0;
+if (argument_count > 3) {
+	_argc = argument[3];
+} else _argc = ds_list_size(_args) - _argi;
+
+// NB! Store-restore mirrors across snippet_execute_string, snippet_call, snippet_call_ext
+// store old arguments:
+var _old_argc = global.__snippet__argument_count;
+var _old_args = global.__snippet__argument;
+var i = 1;
+repeat (_old_argc - 1) {
+	_old_args[i] = global.__snippet__argument[i];
+	i += 1;
+}
+
+// copy new arguments:
+global.__snippet__argument_count = _argc;
+i = 0;
+repeat (_argc) {
+	global.__snippet__argument[i] = ds_list_find_value(_args, _argi + i);
+	i += 1;
+}
+
+// clear "extra" arguments:
+repeat (_old_argc - _argc) {
+	global.__snippet__argument[i] = 0;
+	i += 1;
+}
+
+if (ds_map_exists(global.__snippet__map, _name)) {
+	global.__snippet__result = 0;
 	// one snippet per event:
 	var _enumb = ds_map_find_value(global.__snippet__map, _name);
 	event_perform_object(obj_snippets, ev_alarm, _enumb);

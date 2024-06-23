@@ -485,7 +485,7 @@ game_end(); // calls the game_end "hook"
 <a class="sf" href="#snippet_parse_event_file">snippet_parse_event_file</a><span class="op">(</span><span class="st">"events.gml"</span><span class="op">)</span><span class="op">;</span>
 </pre><p>
 		and a <code>snippet_function_add</code> for each script in the project.
-	</p></article></section><section><header id="snippet_execute_string"><a href="#snippet_execute_string" title="(permalink)">snippet_execute_string(gml_code)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p> 
+	</p></article></section><section><header id="snippet_execute_string"><a href="#snippet_execute_string" title="(permalink)">snippet_execute_string(gml_code, ...arguments)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p> 
 		Like regular <code>execute_string</code>, but uses the snippet preprocessor
 		(e.g. can call snippets using <code>func()</code>).
 	</p></article></section></article></section><section><header id="snippets"><a href="#snippets" title="(permalink)">Snippets</a></header><article><a class="sticky-side" href="#snippets" title="Snippets"><span>Snippets</span></a><section><header id="snippet_define"><a href="#snippet_define" title="(permalink)">snippet_define(name, gml_code)</a></header><article><p>
@@ -515,6 +515,10 @@ return argument0 + argument1;
 	Calls:
 	</p><section><header id="snippet_call"><a href="#snippet_call" title="(permalink)">snippet_call(name, ...arguments)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
 		Calls a snippet with the given name and returns the result, not unlike <code>script_execute</code>.
+	</p></article></section><section><header id="snippet_call_ext"><a href="#snippet_call_ext" title="(permalink)">snippet_call_ext(name, argument_list, offset=0, ?count)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Like <a href="#snippet_call">snippet_call</a>, but takes arguments from a ds_list instead.
+		</p><p>
+		If <code>count</code> is not specified, it's assumed to be <code>ds_list_size(argument_list) - offset</code>.
 	</p></article></section></article></section><section><header id="objects"><a href="#objects" title="(permalink)">Objects</a></header><article><a class="sticky-side" href="#objects" title="Objects"><span>Objects</span></a><section><header id="snippet_define_object"><a href="#snippet_define_object" title="(permalink)">snippet_define_object(name, gml_code)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
 		Creates/overwrites an object.
 		</p><p>
@@ -662,7 +666,10 @@ obj_player.object.gml
 		Calls to it in subsequently compiled snippet will be the <a href="#preproc.call">preprocessor</a>.
 	</p></article></section></article></section><section><header id="other"><a href="#other" title="(permalink)">Other stuff</a></header><article><a class="sticky-side" href="#other" title="Other stuff"><span>Other stuff</span></a><p>
 	File functions:
-	</p><section><header id="sniptools_file_get_contents"><a href="#sniptools_file_get_contents" title="(permalink)">sniptools_file_get_contents(path)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+	</p><section><header id="sniptools_file_exists"><a href="#sniptools_file_exists" title="(permalink)">sniptools_file_exists(path)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
+		Returns whether the extension/C++ thinks that the file exists,
+		which doesn't necessarily match with when GameMaker thinks that a file exists.
+	</p></article></section><section><header id="sniptools_file_get_contents"><a href="#sniptools_file_get_contents" title="(permalink)">sniptools_file_get_contents(path)&#8203;<span class="ret-arrow">&#10140;</span></a></header><article><p>
 		Returns the contents of a file as a string (<code>""</code> if a file is missing).
 	</p></article></section><p>
 	String functions:

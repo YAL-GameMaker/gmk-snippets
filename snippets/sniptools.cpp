@@ -4,6 +4,11 @@
 #include "CharTools.h"
 
 ///
+dllx double sniptools_file_exists(const char* path) {
+	std::ifstream fs(path);
+	return fs.good();
+}
+///
 dllx const char* sniptools_file_get_contents(const char* path) {
 	std::ifstream fs(path);
 	std::ostringstream out{};

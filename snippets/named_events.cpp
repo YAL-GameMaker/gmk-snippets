@@ -134,7 +134,7 @@ dllx double snippet_event_get_number(const char* name) {
 			case gml_event_type_arg::key: {
 				auto key = str.substr(pos + 1);
 				auto kp = gml_keycodes.find(key);
-				if (kp != gml_keycodes.end()) kp->second;
+				if (kp != gml_keycodes.end()) return kp->second;
 
 				int numb = 0;
 				if (std::sscanf(key.c_str(), "%d", &numb)) {

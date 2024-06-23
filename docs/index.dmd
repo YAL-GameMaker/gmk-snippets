@@ -78,7 +78,7 @@ The extension can be found
 		```
 		and a `snippet_function_add` for each script in the project.
 	}
-	#[snippet_execute_string(gml_code)->]() { 
+	#[snippet_execute_string(gml_code, ...arguments)->]() { 
 		Like regular `execute_string`, but uses the snippet preprocessor
 		(e.g. can call snippets using `func()`).
 	}
@@ -114,6 +114,11 @@ The extension can be found
 	Calls:
 	#[snippet_call(name, ...arguments)->]() {
 		Calls a snippet with the given name and returns the result, not unlike `script_execute`.
+	}
+	#[snippet_call_ext(name, argument_list, offset=0, ?count)->]() {
+		Like [snippet_call], but takes arguments from a ds_list instead.
+		
+		If `count` is not specified, it's assumed to be `ds_list_size(argument_list) - offset`.
 	}
 }
 #[Objects](objects) {
@@ -295,6 +300,10 @@ The extension can be found
 }
 #[Other stuff](other) {
 	File functions:
+	#[sniptools_file_exists(path)->]() {
+		Returns whether the extension/C++ thinks that the file exists,
+		which doesn't necessarily match with when GameMaker thinks that a file exists.
+	}
 	#[sniptools_file_get_contents(path)->]() {
 		Returns the contents of a file as a string (`""` if a file is missing).
 	}
