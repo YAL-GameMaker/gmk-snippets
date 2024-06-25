@@ -83,3 +83,9 @@ dllx const char* sniptools_string_split_next() {
 	sniptools_string_split_parts.pop();
 	return result.c_str();
 }
+///
+dllx double sniptools_show_debug_message(const char* text) {
+	printf("%s\n", text);
+	fflush(stdout);
+	return true;
+}

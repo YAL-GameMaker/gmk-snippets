@@ -24,6 +24,7 @@ global.f_sniptools_string_trim_end = external_define(_path, "sniptools_string_tr
 global.f_sniptools_string_is_ident = external_define(_path, "sniptools_string_is_ident", dll_cdecl, ty_real, 1, ty_string);
 global.f_sniptools_string_split_start = external_define(_path, "sniptools_string_split_start", dll_cdecl, ty_real, 2, ty_string, ty_string);
 global.f_sniptools_string_split_next = external_define(_path, "sniptools_string_split_next", dll_cdecl, ty_string, 0);
+global.f_sniptools_show_debug_message = external_define(_path, "sniptools_show_debug_message", dll_cdecl, ty_real, 1, ty_string);
 global.f_snippet_preproc_run = external_define(_path, "snippet_preproc_run", dll_cdecl, ty_real, 3, ty_string, ty_string, ty_string);
 global.f_snippet_preproc_pop_name = external_define(_path, "snippet_preproc_pop_name", dll_cdecl, ty_string, 0);
 global.f_snippet_preproc_pop_code = external_define(_path, "snippet_preproc_pop_code", dll_cdecl, ty_string, 0);
@@ -650,3 +651,7 @@ return external_call(global.f_sniptools_string_split_start, argument0, argument1
 #define sniptools_string_split_next
 /// sniptools_string_split_next()
 return external_call(global.f_sniptools_string_split_next);
+
+#define sniptools_show_debug_message
+/// sniptools_show_debug_message(text)
+return external_call(global.f_sniptools_show_debug_message, argument0);
