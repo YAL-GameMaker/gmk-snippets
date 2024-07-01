@@ -48,6 +48,11 @@ on game start.
 
 If you compile a [GMEdit](https://github.com/YellowAfterlife/GMEdit/) version from git, you can open `.gmk-snips` files in it for a slightly-better code editing experience.
 
+## Extras
+
+- A [plugin](https://github.com/YAL-GameMaker/gmk-snippets) for GMEdit
+  that lets you run the snippet-set by pressing F5 when a `.gmk-snips` is open.
+
 ## TODOs
 
 - Wildcard support in listfiles?\
