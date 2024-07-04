@@ -466,9 +466,14 @@ for (i = 0; i < n; i += 1) {
 			case "": _kind = "script"; break;
 			case ".object": _kind = "object"; break;
 			case ".global": _kind = "global"; break;
+			case ".const": _kind = "const"; break;
 			default:
 				show_error('"' + _noext + '" is not a recognized sub-extension (for "' + _file + '")', false);
 		}
+	} else if (_ext == ".txt"
+		&& string_lower(filename_ext(filename_change_ext(_file, ""))) == ".const"
+	) {
+		_kind = "const";
 	} else {
 		show_error('No idea how to load "' + _ext + '" files (for "' + _file + '")', false);
 	}
@@ -518,6 +523,23 @@ for (i = 0; i < n; i += 1) {
 			} else {
 				snippet_execute_string(_gml);
 			}
+			break;
+		case "const":
+			// well that's silly, maybe I'll add macros to the preprocessor later
+			var _tf = file_text_open_read(_pre + _file);
+			if (_tf == -1) break;
+			var _gml = "";
+			while (!file_text_eof(_tf)) {
+				var _line = file_text_read_string(_tf);
+				file_text_readln(_tf);
+				var _equ = string_pos("=", _line);
+				if (_equ == 0) continue;
+				var _name = string_copy(_line, 1, _equ - 1);
+				if (!sniptools_string_is_ident(_name)) continue;
+				var _value = string_delete(_line, 1, _equ);
+				_gml += "globalvar " + _name + "; " + _name + " = " + _value + ";" + chr(13) + chr(10);
+			}
+			execute_string(_gml);
 			break;
 		case "inline":
 			snippet_execute_string(_file);
