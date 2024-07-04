@@ -19,7 +19,7 @@ type "%projectDir%*.h" "%projectDir%*.cpp" >"%cppPath%" 2>nul
 
 where /q gmxgen
 if %ERRORLEVEL% EQU 0 (
-gmxgen "%outDir%\%extName%.gmxgen81" ^
+	cmd /C gmxgen "%outDir%\%extName%.gmxgen81" ^
 	--copy "%dllPath%" "%dllRel%:%arch%" ^
 	--copy "%outDir%/snippets_core.gml" "snippets_core_gm81.gml"^
 	--gmk-loader snippet_init_dll

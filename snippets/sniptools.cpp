@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <sstream>
 #include <queue>
+#include <stdio.h>
 #include "CharTools.h"
 
 ///
@@ -10,11 +11,20 @@ dllx double sniptools_file_exists(const char* path) {
 }
 ///
 dllx const char* sniptools_file_get_contents(const char* path) {
-	std::ifstream fs(path);
-	std::ostringstream out{};
-	out << fs.rdbuf();
+	// oh, but should these two be widening the path in GM8.1
+	// https://stackoverflow.com/a/2912602/5578773
+	FILE* f = fopen(path, "rb");
+	if (f == NULL) return "";
+
+	fseek(f, 0, SEEK_END);
+	auto size = ftell(f);
+	rewind(f);
+
 	static std::string result{};
-	result.assign(out.str());
+	result.resize(size + 1);
+	fread(result.data(), sizeof(char), size, f);
+	result.data()[size] = 0;
+
 	return result.c_str();
 }
 ///
