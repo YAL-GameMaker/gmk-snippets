@@ -97,6 +97,38 @@ public:
 		}
 		out = std::stringstream();
 	}
+	bool skipCommon(char c, const char* splitter) {
+		switch (c) {
+			case '/':
+				switch (str[pos]) {
+					case '/':
+						skipLine();
+						return true;
+					case '*':
+						while (pos < len) {
+							c = str[pos];
+							if (c == '/' && str[pos - 1] == '*') break;
+							if (c == '#' && str[pos - 1] == '\n') {
+								auto beforeWord = pos++;
+								auto word = readIdent(false);
+								if (word == splitter) {
+									pos = beforeWord;
+									break;
+								}
+							}
+							pos += 1;
+						}
+						return true;
+				}
+				return false;
+			case '"': case '\'':
+				while (pos < len) {
+					if (str[pos++] == c) break;
+				}
+				return true;
+		}
+		return false;
+	}
 	int run(const char* first_name, const char* code, const char* splitter) {
 		str = code;
 		pos = 0;
@@ -114,35 +146,8 @@ public:
 			auto c = str[pos++];
 			if (CharTools::isSpace(c)) continue;
 
-			switch (c) {
-				case '/':
-					switch (str[pos]) {
-						case '/':
-							skipLine();
-							continue;
-						case '*':
-							while (pos < len) {
-								c = str[pos];
-								if (c == '/' && str[pos - 1] == '*') break;
-								if (c == '#' && str[pos - 1] == '\n') {
-									auto beforeWord = pos++;
-									auto word = readIdent(false);
-									if (word == splitter) {
-										pos = beforeWord;
-										break;
-									}
-								}
-								pos += 1;
-							}
-							continue;
-					}
-					continue;
-				case '"': case '\'':
-					while (pos < len) {
-						if (str[pos++] == c) break;
-					}
-					continue;
-			}
+			if (skipCommon(c, splitter)) continue;
+
 			if (CharTools::isIdentStart(c)) {
 				auto before_pos = pos - 1;
 				auto word = readIdent();
@@ -171,6 +176,54 @@ public:
 						start = before_equ;
 					}
 					continue;
+				}
+				
+				// `for (var i = 0;` -> `for ({ var i; i = 0 };`
+				if (word == "for") {
+					auto after_for = pos;
+					#define for_cancel { pos = after_for; continue; }
+
+					skipSpaces();
+					if (str[pos++] != '(') for_cancel;
+					auto after_par = pos;
+
+					skipSpaces();
+					if (str[pos] != 'v') for_cancel;
+					auto before_maybe_var = pos;
+					auto maybe_var = readIdent(false);
+					if (maybe_var != "var") for_cancel;
+
+					skipSpaces();
+					auto var_name = readIdent(false);
+					if (var_name == "") for_cancel;
+					auto after_var_name = pos;
+
+					skipSpaces();
+					if (str[pos] == ':' && str[pos + 1] == '=') {
+						pos += 2;
+					} else if (str[pos] == '=') {
+						pos += 1;
+					} else for_cancel;
+					auto after_set = pos;
+
+					while (pos < len) {
+						c = str[pos++];
+						if (skipCommon(c, splitter)) continue;
+						if (c == ';') { pos--; break; }
+					}
+					if (pos >= len) for_cancel;
+
+					flush(before_maybe_var);
+					out << "{";
+					start = before_maybe_var;
+					flush(after_var_name);
+					out << ";" << var_name;
+					start = after_var_name;
+					flush(pos);
+					out << "}";
+					start = pos;
+
+					#undef for_cancel
 				}
 
 				if (is_script && word == "argument_count") {
