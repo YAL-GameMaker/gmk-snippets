@@ -1,5 +1,12 @@
 #event create
 start_time = current_time;
+enum Test {
+	A,
+	B,
+	C = 100,
+	D
+}
+trace("D is " + string(Test.D));
 
 #event keypress:vk_escape
 if (keyboard_check(vk_shift)) {

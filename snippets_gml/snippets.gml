@@ -26,10 +26,10 @@ global.f_sniptools_string_split_start = external_define(_path, "sniptools_string
 global.f_sniptools_string_split_next = external_define(_path, "sniptools_string_split_next", dll_cdecl, ty_string, 0);
 global.f_sniptools_show_debug_message = external_define(_path, "sniptools_show_debug_message", dll_cdecl, ty_real, 1, ty_string);
 global.f_snippet_preproc_run = external_define(_path, "snippet_preproc_run", dll_cdecl, ty_real, 3, ty_string, ty_string, ty_string);
+global.f_snippet_preproc_get_init = external_define(_path, "snippet_preproc_get_init", dll_cdecl, ty_string, 0);
 global.f_snippet_preproc_pop_name = external_define(_path, "snippet_preproc_pop_name", dll_cdecl, ty_string, 0);
 global.f_snippet_preproc_pop_code = external_define(_path, "snippet_preproc_pop_code", dll_cdecl, ty_string, 0);
 global.f_snippet_preproc_concat_names = external_define(_path, "snippet_preproc_concat_names", dll_cdecl, ty_string, 0);
-
 
 #define snippet_init
 /// (?path_prefix)

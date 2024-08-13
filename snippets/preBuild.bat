@@ -1,4 +1,5 @@
 @echo off
+goto bye
 set dllPath=%~1
 set solutionDir=%~2
 set projectDir=%~3
@@ -17,3 +18,4 @@ if %ERRORLEVEL% EQU 0 (
 	--gmk "%solutionDir%snippets_gml/snippets_autogen.gml"^
 	%projectDir%snippets.cpp
 )
+:bye

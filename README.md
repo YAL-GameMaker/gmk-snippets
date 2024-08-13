@@ -24,13 +24,87 @@ The DLL does code preprocessing and other operations that were deemed too slow t
 
 The scripts use `object_event_add` + `event_perform_object` to store and call the final code without parsing penalties that would occur with `execute_string`.
 
+## Syntactic sugar
+
+<table><tr>
+<th>Syntax</th>
+<th>Result</th>
+<th>Notes</th>
+</tr>
+
+<tr><td> <!-- row -->
+
+```gml
+var i = 0
+globalvar g = 1
+```
+
+</td><td>
+
+```gml
+var i; i = 0
+globalvar g; g = 1
+```
+
+</td><td>
+
+Single-variable declarations only!
+
+</td></tr>
+
+<tr><td> <!-- row -->
+
+```gml
+enum E {
+    A,
+    B,
+    C = 5,
+    D
+}
+trace(E.D);
+```
+
+</td><td>
+
+```gml
+global.__E__A = 0;
+global.__E__B = 1;
+global.__E__C = 5;
+global.__E__D = 6;
+trace(global.__E__D);
+```
+
+</td><td>
+
+Init is done on spot - avoid function calls in enum field "values".
+
+</td></tr>
+
+<tr><td> <!-- row -->
+
+```gml
+missing(1, 2);
+```
+
+</td><td>
+
+```gml
+snippet_call("missing", 1, 2);
+```
+
+</td><td>
+
+Allows snippets to call each other without forward declaration.
+
+</td></tr>
+
+</table>
+
 ## Intended use cases
-<p align="center">
 
-![shrug](./misc/shrug.png)\
-~~What use cases?~~
-
-</p>
+| ![shrug](./misc/shrug.png) |
+|:-:|
+| ~~What use cases?~~ |
 
 You could use it for dynamic content loading if you are making a game in GM8.1.
 
@@ -57,6 +131,7 @@ If you compile a [GMEdit](https://github.com/YellowAfterlife/GMEdit/) version fr
 
 - Wildcard support in listfiles?\
   (`folder/*.gml`)
+- `script_execute` hook (that does either script_execute or snippet_call depending on whether index is number/string)
 
 ## Meta
 

@@ -1,6 +1,9 @@
 #pragma once
 
 namespace CharTools {
+	inline bool isLineSpace(char c) {
+		return c == ' ' || c == '\t';
+	}
 	inline bool isSpace(char c) {
 		switch (c) {
 			case ' ': case '\t': case '\r': case '\n': return true;
